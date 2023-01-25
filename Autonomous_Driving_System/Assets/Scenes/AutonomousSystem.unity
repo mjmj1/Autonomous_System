@@ -63222,7 +63222,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -370, y: 190}
+  m_AnchoredPosition: {x: -480, y: 212}
   m_SizeDelta: {x: 100, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &844092478
@@ -64452,14 +64452,14 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7282772007996484262}
   serializedVersion: 2
-  m_Mass: 800
-  m_Drag: 0.1
-  m_AngularDrag: 0.15
+  m_Mass: 1500
+  m_Drag: 0.05
+  m_AngularDrag: 1.5
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!4 &2491594229748254320
 Transform:
   m_ObjectHideFlags: 0
@@ -65092,10 +65092,10 @@ MonoBehaviour:
   - {fileID: 750726510563043925}
   - {fileID: 7152711881883864512}
   - {fileID: 5064654063038552807}
-  power: 600
+  power: 2000
   downForceValue: 0
   radius: 6
-  drive: 2
+  drive: 1
 --- !u!114 &7951749604892586014
 MonoBehaviour:
   m_ObjectHideFlags: 0

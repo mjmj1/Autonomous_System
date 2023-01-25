@@ -16,19 +16,21 @@ public class VehicleController : MonoBehaviour
     private float power = 400f; // 바퀴를 회전시킬 힘
 
     [SerializeField]
-    public float downForceValue;
+    private float downForceValue;
 
     [SerializeField]
-    public float radius = 5;
+    private float radius;
 
-    enum driveType
+    public float currentSpeed;
+
+    enum DriveType
     {
         FRONTDRIVE,
         REARDRIVE,
         ALLDRIVE
     }
 
-    [SerializeField] driveType drive;
+    [SerializeField] DriveType drive;
 
     InputManager IM;
     Rigidbody rb;
@@ -39,7 +41,7 @@ public class VehicleController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         // 무게 중심을 y축 아래방향으로 낮춘다.
-        rb.centerOfMass = new Vector3(0, 0, 0);
+        rb.centerOfMass = new Vector3(0, -1f, 0);
 
         // 바퀴 모델을 태그를 통해서 찾아온다.(차량이 변경되더라도 자동으로 찾기위해서)
         wheelMesh = GameObject.FindGameObjectsWithTag("WheelMesh");
@@ -62,12 +64,20 @@ public class VehicleController : MonoBehaviour
         AddDownForce();
         Drive();
         SteerVehicle();
+        if (Mathf.Abs(rb.velocity.x) > 15)
+        {
+            rb.velocity = new Vector3(Mathf.Sign(rb.velocity.x) * 15f, rb.velocity.y, rb.velocity.z);
+        }
+        if (Mathf.Abs(rb.velocity.z) > 15)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, Mathf.Sign(rb.velocity.z) * 15f);
+        }
     }
     
     void Drive()
     {
         // 전륜 구동일 때
-        if (drive == driveType.ALLDRIVE)
+        if (drive == DriveType.ALLDRIVE)
         {
             for (int i = 0; i < wheels.Length; i++)
             {
@@ -90,7 +100,7 @@ public class VehicleController : MonoBehaviour
             }
         }
 
-        else if (drive == driveType.REARDRIVE)	// 후륜구동일 때
+        else if (drive == DriveType.REARDRIVE)	// 후륜구동일 때
         {
             // 뒷바퀴에만.
             for (int i = 2; i < wheels.Length; i++)
