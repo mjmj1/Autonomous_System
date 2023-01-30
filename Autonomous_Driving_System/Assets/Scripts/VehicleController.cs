@@ -64,14 +64,6 @@ public class VehicleController : MonoBehaviour
         AddDownForce();
         Drive();
         SteerVehicle();
-        if (Mathf.Abs(rb.velocity.x) > 15)
-        {
-            rb.velocity = new Vector3(Mathf.Sign(rb.velocity.x) * 15f, rb.velocity.y, rb.velocity.z);
-        }
-        if (Mathf.Abs(rb.velocity.z) > 15)
-        {
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, Mathf.Sign(rb.velocity.z) * 15f);
-        }
     }
     
     void Drive()
