@@ -88,8 +88,6 @@ public class DrivingAgent : Agent
         }
 
         AddReward(reward / MaxStep);
-
-        //Debug.Log(transform.parent.name + " : " + action[0] + ", " + action[1]);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
