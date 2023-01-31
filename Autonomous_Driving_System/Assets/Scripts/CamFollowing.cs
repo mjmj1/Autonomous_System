@@ -4,24 +4,25 @@ using UnityEngine;
 
 public class CamFollowing : MonoBehaviour
 {
-    // Ä«¸Þ¶ó°¡ ¹Ù¶óº¼ ´ë»ó
+    // Ä«ï¿½Þ¶ï¿½ ï¿½Ù¶ï¿½ ï¿½ï¿½ï¿½
     [SerializeField]
-    private GameObject cameraView;
+    public GameObject cameraView;
 
-    // Ä«¸Þ¶óÀÇ À§Ä¡
+    // Ä«ï¿½Þ¶ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+
+    public GameObject cameraPos;
+
+    // Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½
     [SerializeField]
-    private GameObject cameraPos;
+    public float speed;
 
-    // Ä«¸Þ¶ó°¡ ¿òÁ÷ÀÏ ¼Óµµ
-    [SerializeField]
-    private float speed;
-
-    // Ä«¸Þ¶óÀÇ Ã³¸®´Â LateUpdate¿¡¼­ Ã³¸®ÇÏµµ·Ï ÇÑ´Ù.
-    private void LateUpdate()
+    // Ä«ï¿½Þ¶ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ LateUpdateï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+    public void LateUpdate()
     {
-        // Lerp¸¦ »ç¿ëÇØ¼­ Ä«¸Þ¶ó¼­ ²÷±è¾øÀÌ ¼­¼­È÷ µû¶ó°¡µµ·Ï ¸¸µé¾îÁØ´Ù.
+        // Lerpï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ Ä«ï¿½Þ¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ó°¡µï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
         gameObject.transform.position = Vector3.Lerp(transform.position, cameraPos.transform.position, Time.deltaTime * speed);
-        // Ä«¸Þ¶ó°¡ ¹Ù¶óº¼ ´ë»óÀ» Á¤ÇØÁØ´Ù.
+        // Ä«ï¿½Þ¶ï¿½ ï¿½Ù¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
         gameObject.transform.LookAt(cameraView.transform);
+
     }
 }
