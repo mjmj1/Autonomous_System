@@ -1,9 +1,17 @@
 using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
+using TMPro;
+using UnityEngine.UI;
 
 public class DrivingAgent : Agent
 {
+    [SerializeField]
+    private TextMeshProUGUI[] text;
+
+    [SerializeField]
+    private RawImage handle;
+
     //휠 콜라이더 4개
     [SerializeField]
     private WheelCollider[] wheels = new WheelCollider[4];
@@ -58,7 +66,7 @@ public class DrivingAgent : Agent
         Resources.UnloadUnusedAssets();
 
         rigidbody.velocity = rigidbody.angularVelocity = Vector3.zero;
-        transform.localPosition = new Vector3(1.6f, 52f, 0f);
+        transform.localPosition = new Vector3(1.8f, -4.7f, 0f);
         transform.localRotation = Quaternion.identity;
     }
 
@@ -88,6 +96,11 @@ public class DrivingAgent : Agent
         }
 
         AddReward(reward / MaxStep);
+
+        text[0].text = "Action[0] : " +  action[0].ToString();
+        text[1].text = "Action[1] : " + action[1].ToString();
+        handle.transform.localRotation = Quaternion.Euler(0, 0, action[1] * -45f);
+
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)

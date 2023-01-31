@@ -27,6 +27,9 @@ public class LaneDetect_v2 : MonoBehaviour
     [SerializeField]
     private RawImage rawImage;
 
+    [SerializeField]
+    private RawImage showimg;
+
     Camera cam;
 
     Mat Process(Mat image)
@@ -315,7 +318,9 @@ public class LaneDetect_v2 : MonoBehaviour
 
         Mat img_result = Process(img_frame);
 
-        rawImage.texture = OpenCvSharp.Unity.MatToTexture(img_result);
+        Texture2D result = OpenCvSharp.Unity.MatToTexture(img_result);
+        rawImage.texture = result;
+        showimg.texture = result;
 
         Resources.UnloadUnusedAssets();
     }
