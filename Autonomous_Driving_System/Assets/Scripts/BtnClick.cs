@@ -26,10 +26,10 @@ public class BtnClick : MonoBehaviour
         CamView.localPosition = new Vector3(0f, 1.7f, 0f);
     }
 
-    public void UpClick()
+    public void PointViewlick()
     {
-        CamPos.localPosition = new Vector3(0f, 11f, 9f);
-        CamView.localPosition = new Vector3(0f, 1.7f, 0f);
+        CamPos.localPosition = new Vector3(0f, 2f, 1f);
+        CamView.localPosition = new Vector3(0f, 2f, 6f);
     }
 
     
