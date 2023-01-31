@@ -3,6 +3,10 @@ using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using TMPro;
 using UnityEngine.UI;
+using System.IO;
+using System.Net.Sockets;
+using System.Text;
+using System;
 
 public class DrivingAgent : Agent
 {
@@ -43,6 +47,76 @@ public class DrivingAgent : Agent
 
     float reward = 0;
 
+    TcpClient client;
+    string serverIP = "10.101.36.73";
+    int port = 60001;
+    byte[] receivedBuffer;
+    StreamReader reader;
+    bool socketReady = false;
+    NetworkStream stream;
+
+    public string serverMsg;
+
+    void Start()
+    {
+        CheckReceive();
+    }
+
+    void Update()
+    {
+        if (socketReady)
+        {
+            if (stream.DataAvailable)
+            {
+                receivedBuffer = new byte[100];
+                stream.Read(receivedBuffer, 0, receivedBuffer.Length);  // stream에 있던 바이트배열 내려서 새로 선언한 바이트배열에 넣기
+                string msg = Encoding.UTF8.GetString(receivedBuffer, 0, receivedBuffer.Length);
+                if (msg.Equals("quit"))
+                    UnityEditor.EditorApplication.isPlaying = false;
+                //Application.Quit();
+                
+                if(msg != null)
+                {
+                    //Debug.Log(msg);
+                    serverMsg = msg;
+                }
+            }
+        }
+    }
+
+    public void CheckReceive()
+    {
+        if (socketReady) return;
+        try
+        {
+            client = new TcpClient(serverIP, port);
+            if (client.Connected)
+            {
+                stream = client.GetStream();
+                Debug.Log("Connect Success");
+                socketReady = true;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.Log("On Client connect exception " + ex);
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        CloseSocket();
+    }
+
+    void CloseSocket()
+    {
+        if (!socketReady) return;
+
+        reader.Close();
+        client.Close();
+        socketReady = false;
+    }
+
     public override void Initialize()
     {
         MaxStep = 10000;
@@ -74,41 +148,56 @@ public class DrivingAgent : Agent
     {
         var action = actions.ContinuousActions;
 
-        Drive(action[0]);
-        SteerVehicle(action[1]);
-
-        UpdateMeshesPostion();
-        AddDownForce();
-
-        if (action[0] >= 0.3f)
+        if(serverMsg.Contains("drive") || serverMsg.Contains("green_right"))
         {
-            reward = 1f;
+            text[0].text = "Action[0] : " + action[0].ToString();
+            text[1].text = "Action[1] : " + action[1].ToString();
+            handle.transform.localRotation = Quaternion.Euler(0, 0, action[1] * -45f);
+
+            Drive(action[0]);
+            SteerVehicle(action[1]);
+
+            UpdateMeshesPostion();
+            AddDownForce();
+
+            if (action[0] >= 0.3f)
+            {
+                reward = 1f;
+            }
+            else if (action[0] < 0.3f)
+            {
+                reward = -1f;
+            }
+
+            if (transform.position.y < 0)
+            {
+                SetReward(-1f);
+                EndEpisode();
+            }
+
+            AddReward(reward / MaxStep);
         }
-        else if (action[0] < 0.3f)
+        else
         {
-            reward = -1f;
+            rigidbody.velocity = Vector3.zero;
         }
-
-        if (transform.position.y < 0)
-        {
-            SetReward(-1f);
-            EndEpisode();
-        }
-
-        AddReward(reward / MaxStep);
-
-        text[0].text = "Action[0] : " +  action[0].ToString();
-        text[1].text = "Action[1] : " + action[1].ToString();
-        handle.transform.localRotation = Quaternion.Euler(0, 0, action[1] * -45f);
-
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var action = actionsOut.ContinuousActions;
 
-        action[0] = Input.GetAxis("Vertical");
-        action[1] = Input.GetAxis("Horizontal");
+        if (serverMsg.Contains("drive") || serverMsg.Contains("green_right"))
+        {
+            action[0] = Input.GetAxis("Vertical");
+            action[1] = Input.GetAxis("Horizontal");
+        }
+        else
+        {
+            rigidbody.velocity= Vector3.zero;
+            action[0] = 0;
+            action[1] = 0;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
