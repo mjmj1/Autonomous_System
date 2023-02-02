@@ -16,16 +16,16 @@ public class DrivingAgent : Agent
     [SerializeField]
     private RawImage handle;
 
-    //ÈÙ ÄÝ¶óÀÌ´õ 4°³
+    //ï¿½ï¿½ ï¿½Ý¶ï¿½ï¿½Ì´ï¿½ 4ï¿½ï¿½
     [SerializeField]
     private WheelCollider[] wheels = new WheelCollider[4];
 
-    // Â÷·® ¸ðµ¨ÀÇ ¹ÙÄû ºÎºÐ 4°³
+    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ 4ï¿½ï¿½
     [SerializeField]
     private GameObject[] wheelMesh = new GameObject[4];
 
     [SerializeField]
-    private float power; // ¹ÙÄû¸¦ È¸Àü½ÃÅ³ Èû
+    private float power; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½Å³ ï¿½ï¿½
 
     [SerializeField]
     private float downForceValue;
@@ -48,7 +48,7 @@ public class DrivingAgent : Agent
     float reward = 0;
 
     TcpClient client;
-    string serverIP = "10.101.36.73";
+    string serverIP = "10.101.34.109";
     int port = 60001;
     byte[] receivedBuffer;
     StreamReader reader;
@@ -69,7 +69,7 @@ public class DrivingAgent : Agent
             if (stream.DataAvailable)
             {
                 receivedBuffer = new byte[100];
-                stream.Read(receivedBuffer, 0, receivedBuffer.Length);  // stream¿¡ ÀÖ´ø ¹ÙÀÌÆ®¹è¿­ ³»·Á¼­ »õ·Î ¼±¾ðÇÑ ¹ÙÀÌÆ®¹è¿­¿¡ ³Ö±â
+                stream.Read(receivedBuffer, 0, receivedBuffer.Length);  // streamï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½è¿­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½è¿­ï¿½ï¿½ ï¿½Ö±ï¿½
                 string msg = Encoding.UTF8.GetString(receivedBuffer, 0, receivedBuffer.Length);
                 if (msg.Equals("quit"))
                     UnityEditor.EditorApplication.isPlaying = false;
@@ -124,12 +124,12 @@ public class DrivingAgent : Agent
         transform = GetComponent<Transform>();
         rigidbody = GetComponent<Rigidbody>();
 
-        // ¹«°Ô Áß½ÉÀ» yÃà ¾Æ·¡¹æÇâÀ¸·Î ³·Ãá´Ù.
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ß½ï¿½ï¿½ï¿½ yï¿½ï¿½ ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
         rigidbody.centerOfMass = new Vector3(0, -1f, 0);
 
         for (int i = 0; i < wheelMesh.Length; i++)
         {
-            // ÈÙÄÝ¶óÀÌ´õÀÇ À§Ä¡¸¦ ¹ÙÄû¸Þ½¬ÀÇ À§Ä¡·Î °¢°¢ ÀÌµ¿½ÃÅ²´Ù.
+            // ï¿½ï¿½ï¿½Ý¶ï¿½ï¿½Ì´ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½Å²ï¿½ï¿½.
             wheels[i].steerAngle = 0;
             wheels[i].transform.position = wheelMesh[i].transform.position;
         }
@@ -211,7 +211,7 @@ public class DrivingAgent : Agent
 
     void Drive(float vertical)
     {
-        // Àü·û ±¸µ¿ÀÏ ¶§
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
         if (drive == DriveType.ALLDRIVE)
         {
             for (int i = 0; i < wheels.Length; i++)
@@ -219,25 +219,25 @@ public class DrivingAgent : Agent
                 wheels[i].motorTorque = vertical * (power / 4);
             }
 
-            if (vertical == 0)	// ÀüÁø ÁßÀÌ ¾Æ´Ò ¶§
+            if (vertical == 0)	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½
             {
                 for (int i = 0; i < wheels.Length; i++)
                 {
                     wheels[i].brakeTorque = power / 4;
                 }
             }
-            else	// Å°¸¦ ´­·¶À» ¶§
+            else	// Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
             {
                 for (int i = 0; i < wheels.Length; i++)
                 {
-                    wheels[i].brakeTorque = 0; // ºê·¹ÀÌÅ© ÇØÁ¦
+                    wheels[i].brakeTorque = 0; // ï¿½ê·¹ï¿½ï¿½Å© ï¿½ï¿½ï¿½ï¿½
                 }
             }
         }
 
-        else if (drive == DriveType.REARDRIVE)	// ÈÄ·û±¸µ¿ÀÏ ¶§
+        else if (drive == DriveType.REARDRIVE)	// ï¿½Ä·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
         {
-            // µÞ¹ÙÄû¿¡¸¸.
+            // ï¿½Þ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
             for (int i = 2; i < wheels.Length; i++)
             {
                 wheels[i].motorTorque = vertical * (power / 2);
@@ -257,8 +257,8 @@ public class DrivingAgent : Agent
                 }
             }
         }
-        else	// Àü·û ±¸µ¿ÀÏ ¶§
-        {	// ¾Õ¹ÙÄû¿¡¸¸
+        else	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+        {	// ï¿½Õ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             for (int i = 0; i < 2; i++)
             {
                 wheels[i].motorTorque = vertical * (power / 2);
