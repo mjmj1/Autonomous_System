@@ -74,8 +74,7 @@ public class DrivingAgent : Agent
                 if (msg.Equals("quit"))
                     UnityEditor.EditorApplication.isPlaying = false;
                 //Application.Quit();
-                
-                if(msg != null)
+                if (msg != null)
                 {
                     //Debug.Log(msg);
                     serverMsg = msg;
@@ -148,7 +147,7 @@ public class DrivingAgent : Agent
     {
         var action = actions.ContinuousActions;
 
-        if(serverMsg.Contains("drive") || serverMsg.Contains("green_right"))
+        if (serverMsg.Contains("drive") || serverMsg.Contains("green_right"))
         {
             text[0].text = "Action[0] : " + action[0].ToString();
             text[1].text = "Action[1] : " + action[1].ToString();
@@ -194,7 +193,7 @@ public class DrivingAgent : Agent
         }
         else
         {
-            rigidbody.velocity= Vector3.zero;
+            rigidbody.velocity = Vector3.zero;
             action[0] = 0;
             action[1] = 0;
         }
