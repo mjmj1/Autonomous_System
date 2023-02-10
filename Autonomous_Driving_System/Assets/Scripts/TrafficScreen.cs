@@ -4,23 +4,54 @@ using UnityEngine;
 
 public class TrafficScreen : MonoBehaviour
 {
-    Vector3 RedLightOn = new Vector3(-403,56,80);
-    Vector3 GreenLightOn = new Vector3((float)-402.598,56,80);
-
-
+    [SerializeField] GameObject[] Red;
+    [SerializeField] GameObject[] Orange;
+    [SerializeField] GameObject[] Green;
+    [SerializeField] GameObject[] Person;
+   
     public void Update()
     {
         string A = GameObject.Find("Car").GetComponent<DrivingAgent>().serverMsg;
-
-        transform.position = GreenLightOn;
+        
+ 
 
         if(A.Contains("green_light"))
         {
-            transform.position = GreenLightOn;
+            for(int i = 0; i < Red.Length; i++)
+            {              
+                Red[i].gameObject.SetActive(true);
+                Green[i].gameObject.SetActive(false);
+            }
+            for(int i = 0; i < Person.Length; i++)
+            {
+                Person[i].gameObject.SetActive(false);
+            }
+
         }
         else if(A.Contains("red_light"))
         {
-            transform.position = RedLightOn;
-        }       
+            for (int i = 0; i < Red.Length; i++)
+            {
+                Red[i].gameObject.SetActive(false);
+                Green[i].gameObject.SetActive(true);
+            }
+            for (int i = 0; i < Person.Length; i++)
+            {
+                Person[i].gameObject.SetActive(false);
+            }
+
+        } 
+        else if(A.Contains("people"))
+        {
+            for (int i = 0; i < Red.Length; i++)
+            {
+                Red[i].gameObject.SetActive(false);
+                Green[i].gameObject.SetActive(true);
+            }
+            for (int i = 0; i < Person.Length; i++)
+            {
+                Person[i].gameObject.SetActive(true);
+            }
+        }
     }
 }

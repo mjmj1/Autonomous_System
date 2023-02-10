@@ -80,6 +80,7 @@ public class DrivingAgent : Agent
                     serverMsg = msg;
                 }
             }
+            Debug.Log(serverMsg);
         }
     }
 
@@ -147,8 +148,13 @@ public class DrivingAgent : Agent
     {
         var action = actions.ContinuousActions;
 
-        if (serverMsg.Contains("drive") || serverMsg.Contains("green_right"))
+        if (serverMsg.Contains("drive") || serverMsg.Contains("green_light"))
         {
+            if (serverMsg.Contains("drive"))
+                text[2].text = "Detected : None";
+            else if (serverMsg.Contains("green_light"))
+                text[2].text = "Detected : Green Light";
+
             text[0].text = "Action[0] : " + action[0].ToString();
             text[1].text = "Action[1] : " + action[1].ToString();
             handle.transform.localRotation = Quaternion.Euler(0, 0, action[1] * -45f);
@@ -178,6 +184,11 @@ public class DrivingAgent : Agent
         }
         else
         {
+            if (serverMsg.Contains("people"))
+                text[2].text = "Detected : Person";
+            else if (serverMsg.Contains("red_light"))
+                text[2].text = "Detected : Red Light";
+
             rigidbody.velocity = Vector3.zero;
         }
     }
@@ -186,7 +197,7 @@ public class DrivingAgent : Agent
     {
         var action = actionsOut.ContinuousActions;
 
-        if (serverMsg.Contains("drive") || serverMsg.Contains("green_right"))
+        if (serverMsg.Contains("drive") || serverMsg.Contains("green_light"))
         {
             action[0] = Input.GetAxis("Vertical");
             action[1] = Input.GetAxis("Horizontal");
