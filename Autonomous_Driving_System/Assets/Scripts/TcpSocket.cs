@@ -9,7 +9,7 @@ using UnityEngine;
 public class TcpSocket : MonoBehaviour
 {
     TcpClient client;
-    string serverIP = "10.101.36.73";
+    string serverIP = "10.101.35.103";
     int port = 60001;
     byte[] receivedBuffer;
     StreamReader reader;

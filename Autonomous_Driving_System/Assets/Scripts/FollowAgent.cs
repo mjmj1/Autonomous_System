@@ -42,7 +42,7 @@ public class FollowAgent : Agent
 
     public override void Initialize()
     {
-        MaxStep = 5000;
+       // MaxStep = 5000;
 
         transform = GetComponent<Transform>();
         rigidbody = GetComponent<Rigidbody>();

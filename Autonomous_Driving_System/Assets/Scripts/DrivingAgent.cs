@@ -48,7 +48,7 @@ public class DrivingAgent : Agent
     float reward = 0;
 
     TcpClient client;
-    string serverIP = "10.101.34.109";
+    string serverIP = "10.101.35.103";
     int port = 60001;
     byte[] receivedBuffer;
     StreamReader reader;
@@ -119,7 +119,7 @@ public class DrivingAgent : Agent
 
     public override void Initialize()
     {
-        MaxStep = 10000;
+        // MaxStep = 10000;
 
         transform = GetComponent<Transform>();
         rigidbody = GetComponent<Rigidbody>();
@@ -221,7 +221,10 @@ public class DrivingAgent : Agent
 
     void Drive(float vertical)
     {
-        // ���� ������ ��
+        /*// ���� ������ ��
+        if (vertical > 0)
+            vertical *= 3;*/
+
         if (drive == DriveType.ALLDRIVE)
         {
             for (int i = 0; i < wheels.Length; i++)
@@ -307,6 +310,8 @@ public class DrivingAgent : Agent
 
     void SteerVehicle(float horizontal)
     {
+        horizontal *= 0.5f;
+
         //steerAngle = Mathf.Rad2Deg * Mathf.Atan(2.55f / (radius + (1.5f / 2))) * horizontalInput;
         if (horizontal > 0)
         {   // rear tracks size is set to 1.5f          wheel base has been set to 2.55f
