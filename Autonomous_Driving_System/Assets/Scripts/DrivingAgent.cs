@@ -47,7 +47,8 @@ public class DrivingAgent : Agent
 
     float reward = 0;
 
-    TcpClient client;
+    public string serverMsg = "drive";
+    /*TcpClient client;
     string serverIP = "10.101.35.103";
     int port = 60001;
     byte[] receivedBuffer;
@@ -55,7 +56,6 @@ public class DrivingAgent : Agent
     bool socketReady = false;
     NetworkStream stream;
 
-    public string serverMsg;
 
     void Start()
     {
@@ -115,7 +115,7 @@ public class DrivingAgent : Agent
         reader.Close();
         client.Close();
         socketReady = false;
-    }
+    }*/
 
     public override void Initialize()
     {
@@ -165,7 +165,7 @@ public class DrivingAgent : Agent
             UpdateMeshesPostion();
             AddDownForce();
 
-            if (action[0] >= 0.3f)
+            /*if (action[0] >= 0.3f)
             {
                 reward = 1f;
             }
@@ -180,7 +180,7 @@ public class DrivingAgent : Agent
                 EndEpisode();
             }
 
-            AddReward(reward / MaxStep);
+            AddReward(reward / MaxStep);*/
         }
         else
         {
@@ -212,11 +212,11 @@ public class DrivingAgent : Agent
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("DeathLine"))
+        /*if (other.CompareTag("DeathLine"))
         {
             SetReward(-1f);
             EndEpisode();
-        }
+        }*/
     }
 
     void Drive(float vertical)
