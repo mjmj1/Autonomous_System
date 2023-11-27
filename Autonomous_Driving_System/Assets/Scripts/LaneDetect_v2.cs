@@ -59,7 +59,7 @@ public class LaneDetect_v2 : MonoBehaviour
 
         List<List<Point>> drawinfo = Slide_window_search(bv_crop, leftbases, rightbases);
 
-        #region ÁÂÇ¥ ±×¸®±â
+        #region ì¢Œí‘œ ê·¸ë¦¬ê¸°
         /*int left_idx = 0;
         int right_idx = 0;
 
@@ -83,7 +83,7 @@ public class LaneDetect_v2 : MonoBehaviour
         }*/
         #endregion
 
-        // ±×¸®±â
+        // ê·¸ë¦¬ê¸°
         List<Point> drawinfo_all = new(drawinfo[1]);
         drawinfo[0].Reverse();
         drawinfo_all.AddRange(drawinfo[0]);
@@ -119,14 +119,14 @@ public class LaneDetect_v2 : MonoBehaviour
         pts2.Add(new Point2f(width, 0));
         pts2.Add(new Point2f(width, height));
 
-        // pts1ÀÇ ÁÂÇ¥¿¡ Ç¥½Ã. perspective º¯È¯ ÈÄ ÀÌµ¿ Á¡ È®ÀÎ
+        // pts1ì˜ ì¢Œí‘œì— í‘œì‹œ. perspective ë³€í™˜ í›„ ì´ë™ ì  í™•ì¸
         Mat M = Cv2.GetPerspectiveTransform(pts1, pts2);
         Mat ret_m = Cv2.GetPerspectiveTransform(pts2, pts1);
         Cv2.WarpPerspective(img_frame, b_v, M, new Size(width, height));
 
         Mat[] mats = new Mat[2];
 
-        mats[0] = b_v; // ¹öµåºä
+        mats[0] = b_v; // ë²„ë“œë·°
         mats[1] = ret_m;
 
         return mats;
@@ -240,11 +240,11 @@ public class LaneDetect_v2 : MonoBehaviour
 
         for (int w = 0; w < nwindows; w++)
         {
-            int win_y_low = binary_warped.Height - (w + 1) * window_height;  // window À­ºÎºĞ
-            int win_xleft_low = left_current.X - margin;  // ¿ŞÂÊ window ¿ŞÂÊ À§
-            int win_xleft_high = left_current.X + margin; // ¿ŞÂÊ window ¿À¸¥ÂÊ ¾Æ·¡
-            int win_xright_low = right_current.X - margin;  // ¿À¸¥ÂÊ window ¿ŞÂÊ À§
-            int win_xright_high = right_current.X + margin; // ¿À¸¥ÂÊ window ¿À¸¥ÂÊ ¾Æ·¡
+            int win_y_low = binary_warped.Height - (w + 1) * window_height;  // window ìœ—ë¶€ë¶„
+            int win_xleft_low = left_current.X - margin;  // ì™¼ìª½ window ì™¼ìª½ ìœ„
+            int win_xleft_high = left_current.X + margin; // ì™¼ìª½ window ì˜¤ë¥¸ìª½ ì•„ë˜
+            int win_xright_low = right_current.X - margin;  // ì˜¤ë¥¸ìª½ window ì™¼ìª½ ìœ„
+            int win_xright_high = right_current.X + margin; // ì˜¤ë¥¸ìª½ window ì˜¤ë¥¸ìª½ ì•„ë˜
 
             Point good_left = new();
             Point good_right = new();
@@ -310,6 +310,7 @@ public class LaneDetect_v2 : MonoBehaviour
     {
         cam = GetComponent<Camera>();
     }
+
 
     void Update()
     {
